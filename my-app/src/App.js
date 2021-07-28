@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link, Switch, Route } from "react-router-dom";
-import Homepage from "./pages/homepage/homepageComponent";
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+
 import Quizpage from "./pages/quizpage/quizpageComponent";
 import "./App.css";
 
-import axios from "axios";
 function App() {
   return (
     <div className="App">

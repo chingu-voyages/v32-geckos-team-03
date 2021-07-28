@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import QuizAnswerBox from "../quizAnswerBox/quizAnswerBox.component";
 
-function QuizTemplate({ question, answers, correctAnswer }) {
+function QuizTemplate({
+  question,
+  answers,
+  correctAnswer,
+  answerChecker,
+  questionNumber
+}) {
   // shuffles anwsers
   function shuffle(array) {
     var currentIndex = array.length,
@@ -29,8 +35,14 @@ function QuizTemplate({ question, answers, correctAnswer }) {
         <h1 className="question">{question}</h1>
       </div>
       {shuffle(answers).map((ans, i) => {
-        return <QuizAnswerBox answers={ans} key={i} />;
+        return (
+          <QuizAnswerBox answer={ans} answerChecker={answerChecker} key={i} />
+        );
       })}
+
+      <div>
+        <p> question {questionNumber}</p>
+      </div>
     </div>
   );
 }

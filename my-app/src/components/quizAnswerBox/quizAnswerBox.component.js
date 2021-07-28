@@ -1,8 +1,16 @@
 import React from "react";
 import "./quizAnswerBox.styles.css";
 
-function QuizAnswerBox({ answers }) {
-  return <button>{answers}</button>;
+function QuizAnswerBox({ answer, answerChecker }) {
+  return (
+    <button
+      onClick={() => {
+        answerChecker(answer);
+      }}
+    >
+      {answer}
+    </button>
+  );
 }
 
 export default QuizAnswerBox;
