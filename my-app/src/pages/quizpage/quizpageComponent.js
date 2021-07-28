@@ -21,12 +21,12 @@ function Quizpage() {
       setCorrectAnwser(quizData[questionTracker].correct_answer);
     }
   }
-
+  // function to go to next question
   function nextQuestion() {
     if (questionTracker < 9) {
       //    increments to next question
       setQuestionTracker(prevCount => prevCount + 1);
-      console.log("tracker");
+
       console.log(questionTracker);
     } else alert("your done");
   }
@@ -41,7 +41,7 @@ function Quizpage() {
       console.log("wrong");
     }
   }
-
+  // useffect is only ran once to fetch and store data from the api
   useEffect(() => {
     axios
       .get(
@@ -51,17 +51,17 @@ function Quizpage() {
         setQuizData(res.data.results);
       });
   }, []);
-  // this useEffect is only used for the first component mounting only
+  // this useEffect is only used for the first component mount only
   useEffect(() => {
     setQuestionData();
   }, [quizData]);
 
+  // useeffect sets new question data when thier is a new question
   useEffect(() => {
     if (questionTracker > 0) {
       setQuestionData();
     }
   }, [questionTracker]);
-  console.log(quizData);
 
   return (
     <div className="App">
