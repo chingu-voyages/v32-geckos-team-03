@@ -38,7 +38,7 @@ function Quizpage() {
 
       nextQuestion();
     } else {
-      console.log("wrong");
+      nextQuestion();
     }
   }
   // useffect is only ran once to fetch and store data from the api
