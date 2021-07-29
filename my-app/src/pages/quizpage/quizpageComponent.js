@@ -12,15 +12,24 @@ function Quizpage() {
   // sets state from quizData
   function setQuestionData() {
     if (quizData.length > 0 && questionTracker <= 9) {
-      setQuestion(quizData[questionTracker].question);
-      setAnswers(quizData[questionTracker].incorrect_answers);
+      setQuestion(atob(quizData[questionTracker].question));
+
+      let anwsers = quizData[questionTracker].incorrect_answers;
+      //  atob function is used to encode api string
+      let newArray = anwsers.map(anw => {
+        return atob(anw);
+      });
+
+      setAnswers(newArray);
+
       setAnswers(oldArray => [
         ...oldArray,
-        quizData[questionTracker].correct_answer
+        atob(quizData[questionTracker].correct_answer)
       ]);
-      setCorrectAnwser(quizData[questionTracker].correct_answer);
+      setCorrectAnwser(atob(quizData[questionTracker].correct_answer));
     }
   }
+
   // function to go to next question
   function nextQuestion() {
     if (questionTracker < 9) {
@@ -45,7 +54,7 @@ function Quizpage() {
   useEffect(() => {
     axios
       .get(
-        "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple"
+        "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple&encode=base64"
       )
       .then(res => {
         setQuizData(res.data.results);
