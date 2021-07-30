@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./quizpage.styles.css";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
 
 import axios from "axios";
@@ -73,7 +74,7 @@ function Quizpage() {
   }, [questionTracker]);
 
   return (
-    <div className="App">
+    <div className="quiz-page">
       <QuizTemplate
         question={question}
         answers={answers}
