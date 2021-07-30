@@ -1,5 +1,6 @@
 import React from "react";
 import QuizAnswerBox from "../quizAnswerBox/quizAnswerBox.component";
+import "./quizTemplate.styles.css";
 
 function QuizTemplate({
   question,
@@ -34,12 +35,13 @@ function QuizTemplate({
       <div className="question-container">
         <h1 className="question">{question}</h1>
       </div>
-      {shuffle(answers).map((ans, i) => {
-        return (
-          <QuizAnswerBox answer={ans} answerChecker={answerChecker} key={i} />
-        );
-      })}
-
+      <div className="answer-container">
+        {shuffle(answers).map((ans, i) => {
+          return (
+            <QuizAnswerBox answer={ans} answerChecker={answerChecker} key={i} />
+          );
+        })}
+      </div>
       <div>
         <p> question {questionNumber}</p>
       </div>
