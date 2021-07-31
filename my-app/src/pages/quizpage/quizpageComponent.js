@@ -8,7 +8,8 @@ function Quizpage() {
   const [questionTracker, setQuestionTracker] = useState(0); // keepts track of question number
   const [question, setQuestion] = useState(""); // current question
   const [answers, setAnswers] = useState([]);
-  const [correctAnswer, setCorrectAnwser] = useState(""); // correct anwser of current question
+  const [correctAnswer, setCorrectAnwser] = useState(""); // correct answer of current question
+  const [score, SetScore] = useState(0);
 
   // sets state from quizData
   function setQuestionData() {
@@ -45,7 +46,7 @@ function Quizpage() {
   function answerChecker(answer) {
     if (answer == correctAnswer) {
       alert("correct");
-
+      SetScore(prevCount => prevCount + 1);
       nextQuestion();
     } else {
       nextQuestion();
@@ -81,6 +82,7 @@ function Quizpage() {
         correctAnswer={correctAnswer}
         answerChecker={answerChecker}
         questionNumber={questionTracker + 1}
+        score={score}
       />
     </div>
   );

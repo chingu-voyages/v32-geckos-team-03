@@ -7,7 +7,8 @@ function QuizTemplate({
   answers,
   correctAnswer,
   answerChecker,
-  questionNumber
+  questionNumber,
+  score
 }) {
   // shuffles anwsers
   function shuffle(array) {
@@ -44,6 +45,7 @@ function QuizTemplate({
       </div>
       <div>
         <p> question {questionNumber}</p>
+        <p>Score:{score}</p>
       </div>
     </div>
   );
