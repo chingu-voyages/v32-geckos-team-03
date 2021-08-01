@@ -1,0 +1,34 @@
+.sign-up-card {
+  width: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -60%);
+}
+.sign-up-form {
+}
+
+.form-input {
+  background: none;
+
+  color: black;
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 300px;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #494949 !important;
+  margin: 25px 0;
+}
+
+.form-input:focus {
+  outline: none;
+}
+
+.sign-up-header {
+  color: white;
+  text-align: center;
+  position: absolute;
+  top: -30px;
+}

@@ -4,11 +4,11 @@ import "./sign-up.styles.css";
 // import FormInput from "../form-input/form-input.component";
 
 function SignUp() {
-  const [state, setState] = useState({ email: "", password: "" });
+  const [state, setState] = useState({ username: "", email: "", password: "" });
 
   const handleSubmit = e => {
     e.preventDefault();
-    this.setState({ email: "", password: "" });
+    setState({ email: "", password: "", username: "" });
   };
 
   const handleChange = e => {
@@ -18,32 +18,42 @@ function SignUp() {
   };
 
   return (
-    <div className="sign-in">
-      <h2>I already have an account</h2>
-      <span>Sign in with your email and password</span>
+    <div className="sign-up">
+      <div className="sign-up-card">
+        <h1 className="sign-up-header">Sign Up</h1>
+        <form onSubmit={handleSubmit} className="sign-up-form">
+          <input
+            name="email"
+            type="email"
+            value={state.email}
+            onChange={handleChange}
+            label="email"
+            placeholder="email"
+            className="form-input"
+          />
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="email"
-          type="email"
-          value={state.email}
-          onChange={handleChange}
-          label="email"
-        />
+          <input
+            name="password"
+            type="password"
+            value={state.password}
+            onChange={handleChange}
+            label="password"
+            placeholder="password"
+            className="form-input"
+          />
+          <input
+            name="username"
+            type="text"
+            value={state.username}
+            onChange={handleChange}
+            label="name"
+            placeholder="username"
+            className="form-input"
+          />
 
-        <input
-          name="password"
-          type="password"
-          value={state.password}
-          onChange={handleChange}
-          label="password"
-        />
-
-        {/* <CustomButton type="submit">Sign in</CustomButton>
-          <CustomButton onClick={signInWithGoogle}>
-            Sign in with goodle
-          </CustomButton> */}
-      </form>
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
     </div>
   );
 }
