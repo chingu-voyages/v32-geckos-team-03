@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import "./sign-up.styles.css";
-// import FormInput from "../form-input/form-input.component";
 
 function SignUp() {
   const [state, setState] = useState({ username: "", email: "", password: "" });
@@ -51,7 +50,9 @@ function SignUp() {
             className="form-input"
           />
 
-          <button type="submit">Sign Up</button>
+          <button type="submit" className="sign-up-btn">
+            Sign Up
+          </button>
         </form>
       </div>
     </div>
