@@ -6,7 +6,7 @@ function SignUp() {
   const [state, setState] = useState({ username: "", email: "", password: "" });
 
   const handleSubmit = e => {
-    e.preventDefault();
+    // e.preventDefault();
     setState({ email: "", password: "", username: "" });
   };
 
@@ -41,7 +41,7 @@ function SignUp() {
             className="form-input"
           />
           <input
-            name="username"
+            name="name"
             type="text"
             value={state.username}
             onChange={handleChange}
