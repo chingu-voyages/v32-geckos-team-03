@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./quizpage.styles.css";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
+import TopBar from "../../components/topBar/topBar.component";
+
 
 import axios from "axios";
 function Quizpage() {
@@ -76,6 +78,7 @@ function Quizpage() {
 
   return (
     <div className="quiz-page">
+      <TopBar />
       <QuizTemplate
         question={question}
         answers={answers}
