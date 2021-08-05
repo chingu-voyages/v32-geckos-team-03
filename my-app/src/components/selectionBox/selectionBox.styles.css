@@ -1,0 +1,38 @@
+.box {
+  height: 150px;
+  width: 300px;
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.selection-btn {
+  color: #494949 !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #ffffff;
+  padding: 20px;
+  border: 4px solid #494949 !important;
+  display: inline-block;
+  transition: all 0.4s ease 0s;
+  width: 150px;
+  margin-bottom: 10px;
+}
+
+/* .third {
+  border-color: $blue;
+  color: #fff;
+  box-shadow: 0 0 40px 40px $blue inset, 0 0 0 0 $blue;
+  transition: all 150ms ease-in-out;
+  
+ 
+} */
+
+.selection-btn:hover {
+  color: #ffffff !important;
+  background: #17252a;
+  border-color: #17252a !important;
+  transition: all 0.4s ease 0s;
+}
