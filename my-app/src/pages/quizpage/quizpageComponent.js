@@ -7,6 +7,7 @@ import TopBar from "../../components/topBar/topBar.component";
 import axios from "axios";
 function Quizpage() {
   let { type } = useParams(); // type is either general question or id for for catigory
+  console.log(type);
 
   const [quizData, setQuizData] = useState([]); // 10 question objects is stored here
   const [questionTracker, setQuestionTracker] = useState(0); // keepts track of question number
@@ -61,12 +62,20 @@ function Quizpage() {
     if (type == "general") {
       axios
         .get(
-          "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple&encode=base64"
+          "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64"
         )
         .then(res => {
           setQuizData(res.data.results);
         });
     } else if (type != "general") {
+      axios
+        .get(
+          `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`
+        )
+        .then(res => {
+          setQuizData(res.data.results);
+          console.log(res);
+        });
     }
   }, []);
   // this useEffect is only used for the first component mount only

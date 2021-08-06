@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import Header from "../../components/header/header.component";
 import SelectionBox from "../../components/selectionBox/selectionBox.component";
+import TopicBox from "../../components/topicBox/topicBox.component";
 
 function Homepage() {
   return (
@@ -14,7 +15,7 @@ function Homepage() {
         <div>
           <Link to="/homepage">Home</Link>
         </div>
-        <div>Topics</div>
+
         <div>Something</div>
         <div className="homepage-boxes">
           <SelectionBox
@@ -23,7 +24,7 @@ function Homepage() {
             link="quizpage/general"
           />
 
-          <SelectionBox title="Select a Topic" buttonName="SELECT" />
+          <TopicBox />
         </div>
       </div>
     </div>
