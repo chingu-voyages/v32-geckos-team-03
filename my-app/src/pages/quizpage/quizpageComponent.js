@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./quizpage.styles.css";
+import { useParams } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
 import TopBar from "../../components/topBar/topBar.component";
 
-
 import axios from "axios";
 function Quizpage() {
+  let { type } = useParams(); // type is either general question or id for for catigory
+  console.log(type);
+
   const [quizData, setQuizData] = useState([]); // 10 question objects is stored here
   const [questionTracker, setQuestionTracker] = useState(0); // keepts track of question number
   const [question, setQuestion] = useState(""); // current question
@@ -56,13 +59,24 @@ function Quizpage() {
   }
   // useffect is only ran once to fetch and store data from the api
   useEffect(() => {
-    axios
-      .get(
-        "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple&encode=base64"
-      )
-      .then(res => {
-        setQuizData(res.data.results);
-      });
+    if (type == "general") {
+      axios
+        .get(
+          "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64"
+        )
+        .then(res => {
+          setQuizData(res.data.results);
+        });
+    } else if (type != "general") {
+      axios
+        .get(
+          `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`
+        )
+        .then(res => {
+          setQuizData(res.data.results);
+          console.log(res);
+        });
+    }
   }, []);
   // this useEffect is only used for the first component mount only
   useEffect(() => {
