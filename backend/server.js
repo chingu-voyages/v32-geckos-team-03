@@ -14,12 +14,16 @@ const User = require('./models/user.model');
 
 // Initialization
 const app = express();
-mongoose.connect(config.CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(config.CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 // Middleware
 app.use(cors({ origin: `${config.SERVER_ADDRESS}:${config.SERVER_PORT}`, credentials: true }));
-app.use(session({secret: 'v32geckost3'}));
-app.use(bodyParser.urlencoded());
+app.use(session({
+  secret: 'v32geckost3',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -71,6 +75,3 @@ app.listen(config.SERVER_PORT, () => {
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
-
-
-
