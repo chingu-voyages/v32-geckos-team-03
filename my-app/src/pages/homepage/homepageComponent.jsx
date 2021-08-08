@@ -16,7 +16,6 @@ function Homepage() {
           <Link to="/homepage">Home</Link>
         </div>
 
-        <div>Something</div>
         <div className="homepage-boxes">
           <SelectionBox
             title="General Knowledge Quiz"
