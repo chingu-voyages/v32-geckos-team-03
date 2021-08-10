@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./quizpage.styles.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
 import TopBar from "../../components/topBar/topBar.component";
 
@@ -49,7 +49,7 @@ function Quizpage() {
 
   // function checks if answer is right or wrong
   function answerChecker(answer) {
-    if (answer == correctAnswer) {
+    if (answer === correctAnswer) {
       alert("correct");
       SetScore(prevCount => prevCount + 1);
       nextQuestion();
@@ -59,7 +59,7 @@ function Quizpage() {
   }
   // useffect is only ran once to fetch and store data from the api
   useEffect(() => {
-    if (type == "general") {
+    if (type === "general") {
       axios
         .get(
           "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64"
@@ -67,7 +67,7 @@ function Quizpage() {
         .then(res => {
           setQuizData(res.data.results);
         });
-    } else if (type != "general") {
+    } else if (type !== "general") {
       axios
         .get(
           `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`
@@ -93,6 +93,9 @@ function Quizpage() {
   return (
     <div className="quiz-page">
       <TopBar />
+      <h1 className="homepage-header">
+        <Link to="/homepage">Home</Link>
+      </h1>
       <QuizTemplate
         question={question}
         answers={answers}
