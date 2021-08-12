@@ -31,6 +31,8 @@ function QuizTemplate({
     return array;
   }
 
+  console.log(correctAnswer);
+
   return (
     <div className="quiz-template">
       <div className="question-container">
@@ -39,7 +41,12 @@ function QuizTemplate({
       <div className="answer-container">
         {shuffle(answers).map((ans, i) => {
           return (
-            <QuizAnswerBox answer={ans} answerChecker={answerChecker} key={i} />
+            <QuizAnswerBox
+              answer={ans}
+              answerChecker={answerChecker}
+              correctAnswer={correctAnswer}
+              key={i}
+            />
           );
         })}
       </div>

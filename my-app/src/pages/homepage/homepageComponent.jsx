@@ -12,10 +12,6 @@ function Homepage() {
     <div className="homepage">
       <Header />
       <div className="homepage-inner">
-        <div>
-          <Link to="/homepage">Home</Link>
-        </div>
-
         <div className="homepage-boxes">
           <SelectionBox
             title="General Knowledge Quiz"

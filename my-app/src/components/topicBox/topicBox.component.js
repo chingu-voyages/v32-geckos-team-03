@@ -121,10 +121,10 @@ function TopicBox({}) {
   }
 
   return (
-    <div className="box">
+    <div className="topic-box">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="catigories">Choose a Topic:</label>
-        <select value={topic} onChange={handleChange}>
+        <h1 className="topic-header">Choose a Topic:</h1>
+        <select value={topic} onChange={handleChange} className="topic-select">
           {catigories().map(function(data) {
             return (
               <option key={data.id} value={data.id}>

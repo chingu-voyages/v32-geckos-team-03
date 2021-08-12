@@ -1,3 +1,13 @@
+.topic-box {
+  height: 200px;
+  width: 50%;
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .topic-btn {
   color: #494949 !important;
   text-transform: uppercase;
@@ -25,4 +35,12 @@
   background: #17252a;
   border-color: #17252a !important;
   transition: all 0.4s ease 0s;
+}
+
+.topic-header {
+  padding-bottom: 10px;
+}
+
+.topic-select {
+  margin-bottom: 10px;
 }
