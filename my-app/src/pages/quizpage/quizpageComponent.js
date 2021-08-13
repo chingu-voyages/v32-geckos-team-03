@@ -64,7 +64,7 @@ function Quizpage() {
   function gameOver() {
     setTimeout(() => {
       history.push("/homepage");
-    }, 3000);
+    }, 1000);
   }
   // useffect is only ran once to fetch and store data from the api
   useEffect(() => {

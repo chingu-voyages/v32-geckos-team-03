@@ -3,7 +3,7 @@ import "./quizAnswerBox.styles.css";
 
 function QuizAnswerBox({ answer, answerChecker, correctAnswer }) {
   const [displayAnswer, setDisplayAnswer] = useState("");
-  const [disabled, setDisabled] = useState(false);
+  // const [disabled, setDisabled] = useState(false);
 
   function revealAnswer() {
     setDisplayAnswer(correctAnswer);
@@ -16,12 +16,11 @@ function QuizAnswerBox({ answer, answerChecker, correctAnswer }) {
       }
       onClick={() => {
         revealAnswer();
-        setDisabled(true);
+
         setTimeout(() => {
           answerChecker(answer);
         }, 200);
       }}
-      disabled={disabled ? disabled : false}
     >
       {answer}
     </button>
