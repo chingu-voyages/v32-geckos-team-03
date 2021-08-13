@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./quizpage.styles.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
 
 import axios from "axios";

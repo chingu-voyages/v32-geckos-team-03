@@ -3,6 +3,10 @@
   height: 100vh;
 }
 
+.homepage-inner {
+}
+
 .homepage-boxes {
   display: flex;
+  justify-content: space-evenly;
 }

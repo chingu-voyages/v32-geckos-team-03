@@ -123,7 +123,7 @@ function TopicBox() {
   return (
     <div className="box">
       <form onSubmit={handleSubmit}>
-        <label for="catigories">Choose a Topic:</label>
+        <label htmlFor="catigories">Choose a Topic:</label>
         <select value={topic} onChange={handleChange}>
           {catigories().map(function (data) {
             return (
