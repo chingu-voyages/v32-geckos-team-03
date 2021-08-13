@@ -1,77 +1,97 @@
-// 3rd party modules
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const passport = require('passport');
-const mongoose = require('mongoose');
+const config = require("./config");
+const express = require("express");
+const session = require("express-session");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
+const User = require("./models/user.model");
+const LocalStrategy = require("passport-local").Strategy;
 
-// Internal modules
-const config = require('./config');
-const localAuth = require('./strategies/local.strategy')(passport);
-const User = require('./models/user.model');
+mongoose.connect(config.CONNECTION_STRING, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 
-// Initialization
 const app = express();
-mongoose.connect(config.CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
-
-// Middleware
-app.use(cors({ origin: `${config.SERVER_ADDRESS}:${config.SERVER_PORT}`, credentials: true }));
-app.use(session({
-  secret: 'v32geckost3',
-  resave: false,
-  saveUninitialized: false
-}));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: `${config.FRONTEND_ADDRESS}:${config.FRONTEND_PORT}`,
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(
+  session({
+    secret: "randomsecret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
-app.get('/', function (req, res, next) {
-  if (!req.isAuthenticated()) {
-    res.redirect('/login');
-  } else {
-    next();
-  }
+const localAuth = new LocalStrategy({ usernameField: "email" }, async function (email, password, done) {
+  let user = await User.userForEmail(email);
+  if (!user) return done(null, false);
+
+  let validPassword = await user.comparePassword(password);
+  if (!validPassword) return done(null, false);
+
+  return done(null, user);
 });
 
-app.get('/login|/register', function (req, res, next) {
-  if (req.isAuthenticated()) {
-    res.redirect('/');
-  } else {
-    next();
-  }
+passport.use(localAuth);
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
 });
 
-app.post('/register', async function (req, res) {
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
+app.listen(3000, () => {
+  console.log("Server 2 started.");
+});
+
+app.post("/sign-up", async function (req, res) {
   let email = req.body?.email;
   let userExists = await User.userForEmail(email);
 
   if (userExists) {
-    res.redirect('/register?already_registered');
+    res.sendStatus(409);
   } else {
     await User.register(req.body);
-    res.redirect('/login?registered')
+    res.sendStatus(201);
   }
 });
 
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login?incorrect' 
-}));
+app.post("/login", passport.authenticate("local"), (req, res) => {
+  res.sendStatus(200);
+});
 
-app.get('/logout', function (req, res) {
+app.get("/user", function (req, res) {
+  req.user ? res.json(req.user) : res.sendStatus(401);
+});
+
+app.post("/edit", async function (req, res) {
+  if (!req.user) {
+    res.sendStatus(401);
+  }
+
+  let name = req.body?.name;
+  let password = req.body?.password;
+  let currentUser = await User.userForEmail(req.user?.email);
+
+  await currentUser.edit(name, password);
+  res.sendStatus(200);
+});
+
+app.get("/logout", function (req, res) {
   req.logout();
-  res.redirect('/login');
-});
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.listen(config.SERVER_PORT, () => {
-  console.log('Server running.');
-});
-
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  res.sendStatus(200);
 });
