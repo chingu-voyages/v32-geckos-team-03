@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./quizpage.styles.css";
 import { useParams, Link } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
-import TopBar from "../../components/topBar/topBar.component";
 
 import axios from "axios";
 function Quizpage() {
@@ -13,7 +12,7 @@ function Quizpage() {
   const [questionTracker, setQuestionTracker] = useState(0); // keepts track of question number
   const [question, setQuestion] = useState(""); // current question
   const [answers, setAnswers] = useState([]);
-  const [correctAnswer, setCorrectAnwser] = useState(""); // correct answer of current question
+  const [correctAnswer, setCorrectAnswer] = useState(""); // correct answer of current question
   const [score, SetScore] = useState(0);
 
   // sets state from quizData
@@ -21,19 +20,16 @@ function Quizpage() {
     if (quizData.length > 0 && questionTracker <= 9) {
       setQuestion(atob(quizData[questionTracker].question));
 
-      let anwsers = quizData[questionTracker].incorrect_answers;
+      let answers = quizData[questionTracker].incorrect_answers;
       //  atob function is used to encode api string
-      let newArray = anwsers.map(anw => {
+      let newArray = answers.map((anw) => {
         return atob(anw);
       });
 
       setAnswers(newArray);
 
-      setAnswers(oldArray => [
-        ...oldArray,
-        atob(quizData[questionTracker].correct_answer)
-      ]);
-      setCorrectAnwser(atob(quizData[questionTracker].correct_answer));
+      setAnswers((oldArray) => [...oldArray, atob(quizData[questionTracker].correct_answer)]);
+      setCorrectAnswer(atob(quizData[questionTracker].correct_answer));
     }
   }
 
@@ -41,7 +37,7 @@ function Quizpage() {
   function nextQuestion() {
     if (questionTracker < 9) {
       //    increments to next question
-      setQuestionTracker(prevCount => prevCount + 1);
+      setQuestionTracker((prevCount) => prevCount + 1);
 
       console.log(questionTracker);
     } else alert("your done");
@@ -51,7 +47,7 @@ function Quizpage() {
   function answerChecker(answer) {
     if (answer === correctAnswer) {
       alert("correct");
-      SetScore(prevCount => prevCount + 1);
+      SetScore((prevCount) => prevCount + 1);
       nextQuestion();
     } else {
       nextQuestion();
@@ -61,23 +57,22 @@ function Quizpage() {
   useEffect(() => {
     if (type === "general") {
       axios
-        .get(
-          "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64"
-        )
-        .then(res => {
+        .get("https://opentdb.com/api.php?amount=10&type=multiple&encode=base64", { withCredentials: false })
+        .then((res) => {
           setQuizData(res.data.results);
         });
     } else if (type !== "general") {
       axios
-        .get(
-          `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`
-        )
-        .then(res => {
+        .get(`https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`, {
+          withCredentials: false,
+        })
+        .then((res) => {
           setQuizData(res.data.results);
           console.log(res);
         });
     }
   }, []);
+
   // this useEffect is only used for the first component mount only
   useEffect(() => {
     setQuestionData();
@@ -92,10 +87,6 @@ function Quizpage() {
 
   return (
     <div className="quiz-page">
-      <TopBar />
-      <h1 className="homepage-header">
-        <Link to="/homepage">Home</Link>
-      </h1>
       <QuizTemplate
         question={question}
         answers={answers}
