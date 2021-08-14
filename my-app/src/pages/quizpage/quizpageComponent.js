@@ -45,12 +45,15 @@ function Quizpage() {
     } else {
       alert("your done");
       if (!wasScoreSaved) {
+        wasScoreSaved = true;
         saveScore()
           .then(() => {
-            wasScoreSaved = true;
             alert("User score saved.");
           })
-          .catch((error) => alert(error));
+          .catch((error) => {
+            wasScoreSaved = false;
+            alert(error);
+          });
       }
     }
   }

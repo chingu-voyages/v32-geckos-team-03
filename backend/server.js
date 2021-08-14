@@ -98,9 +98,6 @@ app.get("/logout", function (req, res) {
 });
 
 app.post("/save-score", async function (req, res) {
-  console.log(req.user);
-  console.log(req.body);
-
   const currentUser = req.user;
   if (!currentUser) {
     res.sendStatus(401);
@@ -110,7 +107,7 @@ app.post("/save-score", async function (req, res) {
   // How can we be sure that this is the user's true score?
   let newScoreData = req.body;
   if (!newScoreData) {
-    return res.sendStatus(400);
+    res.sendStatus(400);
     return;
   }
 
