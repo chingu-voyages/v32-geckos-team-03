@@ -4,10 +4,12 @@ import { useParams, Link } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
 
 import axios from "axios";
+
 function Quizpage() {
   let { type } = useParams(); // type is either general question or id for for catigory
-  console.log(type);
+  let wasScoreSaved = false;
 
+  // const userInfo = useContext(AuthContext);
   const [quizData, setQuizData] = useState([]); // 10 question objects is stored here
   const [questionTracker, setQuestionTracker] = useState(0); // keepts track of question number
   const [question, setQuestion] = useState(""); // current question
@@ -40,7 +42,35 @@ function Quizpage() {
       setQuestionTracker((prevCount) => prevCount + 1);
 
       console.log(questionTracker);
-    } else alert("your done");
+    } else {
+      alert("your done");
+      if (!wasScoreSaved) {
+        saveScore()
+          .then(() => {
+            wasScoreSaved = true;
+            alert("User score saved.");
+          })
+          .catch((error) => alert(error));
+      }
+    }
+  }
+
+  async function saveScore() {
+    try {
+      let response = await axios.post(
+        process.env.REACT_APP_BACKEND + "/save-score",
+        {
+          score: score,
+          date: new Date(),
+          topic: type,
+        },
+        { withCredentials: true }
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Could not save user score.");
+    }
   }
 
   // function checks if answer is right or wrong

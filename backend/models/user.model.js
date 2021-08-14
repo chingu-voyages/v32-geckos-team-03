@@ -2,10 +2,17 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const { Schema } = mongoose;
 
+const scoresSchema = new Schema({
+  points: Number,
+  date: Date,
+  topic: String,
+});
+
 const userSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  scores: [scoresSchema],
 });
 
 userSchema.pre("save", async function () {
