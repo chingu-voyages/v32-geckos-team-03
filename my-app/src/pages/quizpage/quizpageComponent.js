@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./quizpage.styles.css";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
 
 import axios from "axios";
@@ -41,18 +41,18 @@ function Quizpage() {
       //    increments to next question
       setQuestionTracker((prevCount) => prevCount + 1);
 
-      console.log(questionTracker);
+      // console.log(questionTracker);
     } else {
-      alert("your done");
+      console.log("You're done.");
       if (!wasScoreSaved) {
         wasScoreSaved = true;
         saveScore()
           .then(() => {
-            alert("User score saved.");
+            console.log("User score saved.");
           })
           .catch((error) => {
             wasScoreSaved = false;
-            alert(error);
+            console.log(error);
           });
       }
     }
@@ -65,7 +65,7 @@ function Quizpage() {
         {
           points: score,
           date: new Date(),
-          topic: type,
+          topic: type === "general" ? 9 : Number(type),
         },
         { withCredentials: true }
       );
@@ -79,7 +79,7 @@ function Quizpage() {
   // function checks if answer is right or wrong
   function answerChecker(answer) {
     if (answer === correctAnswer) {
-      alert("correct");
+      console.log("correct");
       SetScore((prevCount) => prevCount + 1);
       nextQuestion();
     } else {
@@ -89,21 +89,23 @@ function Quizpage() {
   // useffect is only ran once to fetch and store data from the api
   useEffect(() => {
     if (type === "general") {
-      axios
-        .get("https://opentdb.com/api.php?amount=10&type=multiple&encode=base64", { withCredentials: false })
-        .then((res) => {
-          setQuizData(res.data.results);
-        });
-    } else if (type !== "general") {
-      axios
-        .get(`https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`, {
-          withCredentials: false,
-        })
-        .then((res) => {
-          setQuizData(res.data.results);
-          console.log(res);
-        });
+      type = 9;
+      // axios
+      //   .get("https://opentdb.com/api.php?amount=10&type=multiple&encode=base64", { withCredentials: false })
+      //   .then((res) => {
+      //     setQuizData(res.data.results);
+      //   });
     }
+    // } else if (type !== "general") {
+    axios
+      .get(`https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`, {
+        withCredentials: false,
+      })
+      .then((res) => {
+        setQuizData(res.data.results);
+        console.log(res);
+      });
+    // }
   }, []);
 
   // this useEffect is only used for the first component mount only

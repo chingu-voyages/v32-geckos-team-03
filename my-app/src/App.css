@@ -81,8 +81,8 @@
 }
 
 .table {
-  width: 300px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 20px auto 0;
   table-layout: fixed;
   border-collapse: collapse;
   border: 2px solid black;
@@ -94,6 +94,6 @@
   padding: 10px;
 }
 
-.scores-table {
+.select-topic {
   margin-top: 20px;
 }

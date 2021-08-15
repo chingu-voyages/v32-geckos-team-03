@@ -2,17 +2,19 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const { Schema } = mongoose;
 
-const scoresSchema = new Schema({
-  points: Number,
-  date: Date,
-  topic: String,
+const userSchema = new Schema({
+  _id: Schema.Types.ObjectId,
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  scores: [{ type: Schema.Types.ObjectId, ref: "Score" }],
 });
 
-const userSchema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  scores: [scoresSchema],
+const scoreSchema = new Schema({
+  points: Number,
+  date: Date,
+  topic: Number,
+  user: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 userSchema.pre("save", async function (next) {
@@ -32,7 +34,10 @@ userSchema.statics.userForEmail = async function (email) {
 };
 
 userSchema.statics.register = async function (data) {
-  let newUser = new User(data);
+  let newUser = new User({
+    _id: new mongoose.Types.ObjectId(),
+    ...data,
+  });
   return await newUser.save();
 };
 
@@ -45,5 +50,7 @@ userSchema.methods.edit = async function (name, password) {
 };
 
 const User = mongoose.model("User", userSchema);
+const Score = mongoose.model("Score", scoreSchema);
 
-module.exports = User;
+module.exports.User = User;
+module.exports.Score = Score;
