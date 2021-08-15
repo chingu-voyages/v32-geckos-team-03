@@ -63,7 +63,7 @@ function Quizpage() {
       let response = await axios.post(
         process.env.REACT_APP_BACKEND + "/save-score",
         {
-          score: score,
+          points: score,
           date: new Date(),
           topic: type,
         },

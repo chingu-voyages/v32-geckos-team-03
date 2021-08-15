@@ -54,6 +54,16 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
+function checkAuthentication(req, res, next) {
+  const currentUser = req.user;
+  if (!currentUser) {
+    res.sendStatus(401);
+    return;
+  } else {
+    next();
+  }
+}
+
 app.listen(3000, () => {
   console.log("Server 2 started.");
 });
@@ -114,4 +124,9 @@ app.post("/save-score", async function (req, res) {
   currentUser.scores.push(newScoreData);
   await currentUser.save();
   res.sendStatus(200);
+});
+
+app.get("/get-scores", checkAuthentication, function (req, res) {
+  const currentUser = req.user;
+  res.json(currentUser.scores);
 });

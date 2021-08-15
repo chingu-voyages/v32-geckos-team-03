@@ -79,3 +79,21 @@
   border-color: #17252a;
   transition: all 0.4s ease 0s;
 }
+
+.table {
+  width: 300px;
+  margin: 0 auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 2px solid black;
+}
+
+.table th,
+.table td {
+  margin: 0;
+  padding: 10px;
+}
+
+.scores-table {
+  margin-top: 20px;
+}

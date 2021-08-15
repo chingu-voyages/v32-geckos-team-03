@@ -16,6 +16,9 @@ function NavBar(props) {
               <LinkButton text="Edit User" path="/edit" />
             </li>
             <li>
+              <LinkButton text="Previous Scores" path="/scores" />
+            </li>
+            <li>
               <LinkButton text="Logout" path="/logout" />
             </li>
           </>
