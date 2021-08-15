@@ -13,6 +13,7 @@ import LogoutPage from "./pages/logoutPage/logoutPageComponent";
 import NavBar from "./components/navBar/navBar.component";
 import ScoresPage from "./pages/scoresPage/scoresPageComponent";
 import RankingPage from "./pages/rankingPage/rankingPageComponent";
+import SharePage from "./pages/sharePage/sharePageComponent";
 
 class App extends Component {
   static contextType = AuthContext;
@@ -44,6 +45,7 @@ class App extends Component {
     }
 
     let isAuthenticated = this.isUserAuthenticated();
+    // console.log("isAuthenticated", isAuthenticated);
 
     return (
       <div className="container">
@@ -55,12 +57,14 @@ class App extends Component {
             <Route path="/edit" component={EditPage} />
             <Route path="/scores" component={ScoresPage} />
             <Route path="/ranking" component={RankingPage} />
+            <Route path="/share/:id" component={SharePage} />
             <Route path="/logout" component={LogoutPage} />
             <Route exact path="/" component={Homepage} />
             {this.getDefaultPrivateRoute()}
           </Switch>
         ) : (
           <Switch>
+            <Route path="/share/:id" component={SharePage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/sign-up" component={SignUpPage} />
             {this.getDefaultPublicRoute()}
