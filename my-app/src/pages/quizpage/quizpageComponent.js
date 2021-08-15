@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./quizpage.styles.css";
 import { useParams, Link, useHistory } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
-import TopBar from "../../components/topBar/topBar.component";
 
 import axios from "axios";
 function Quizpage() {
@@ -71,7 +70,8 @@ function Quizpage() {
     if (type === "general") {
       axios
         .get(
-          "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64"
+          "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64",
+          { withCredentials: false }
         )
         .then(res => {
           setQuizData(res.data.results);
@@ -79,7 +79,10 @@ function Quizpage() {
     } else if (type !== "general") {
       axios
         .get(
-          `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`
+          `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
+          {
+            withCredentials: false
+          }
         )
         .then(res => {
           setQuizData(res.data.results);
@@ -121,10 +124,6 @@ function Quizpage() {
 
   return (
     <div className="quiz-page">
-      <TopBar />
-      <h1 className="homepage-header">
-        <Link to="/homepage">Home</Link>
-      </h1>
       <QuizTemplate
         question={question}
         answers={answers}

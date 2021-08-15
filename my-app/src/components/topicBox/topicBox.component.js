@@ -3,7 +3,7 @@ import "./topicBox.styles.css";
 
 import { useHistory } from "react-router-dom";
 
-function TopicBox({}) {
+function TopicBox() {
   const [topic, setTopic] = useState("");
   let history = useHistory();
   function catigories() {
