@@ -81,6 +81,7 @@ app.get("/user", function (req, res) {
 app.post("/edit", async function (req, res) {
   if (!req.user) {
     res.sendStatus(401);
+    return;
   }
 
   let name = req.body?.name;
@@ -93,5 +94,24 @@ app.post("/edit", async function (req, res) {
 
 app.get("/logout", function (req, res) {
   req.logout();
+  res.sendStatus(200);
+});
+
+app.post("/save-score", async function (req, res) {
+  const currentUser = req.user;
+  if (!currentUser) {
+    res.sendStatus(401);
+    return;
+  }
+
+  // How can we be sure that this is the user's true score?
+  let newScoreData = req.body;
+  if (!newScoreData) {
+    res.sendStatus(400);
+    return;
+  }
+
+  currentUser.scores.push(newScoreData);
+  await currentUser.save();
   res.sendStatus(200);
 });
