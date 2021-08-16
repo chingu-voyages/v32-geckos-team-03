@@ -4,37 +4,19 @@ import { useParams, Link, useHistory } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
 
 import axios from "axios";
+
 function Quizpage() {
   let { type } = useParams(); // type is either general question or id for for catigory
   let history = useHistory();
+  let wasScoreSaved = false;
 
+  // const userInfo = useContext(AuthContext);
   const [quizData, setQuizData] = useState([]); // 10 question objects is stored here
   const [questionTracker, setQuestionTracker] = useState(0); // keepts track of question number
   const [question, setQuestion] = useState(""); // current question
   const [answers, setAnswers] = useState([]);
   const [correctAnswer, setCorrectAnwser] = useState(""); // correct answer of current question
   const [score, SetScore] = useState(0);
-
-  // sets state from quizData
-  // function setQuestionData() {
-  //   if (quizData.length > 0 && questionTracker <= 9) {
-  //     setQuestion(atob(quizData[questionTracker].question));
-
-  //     let anwsers = quizData[questionTracker].incorrect_answers;
-  //     //  atob function is used to encode api string
-  //     let newArray = anwsers.map(anw => {
-  //       return atob(anw);
-  //     });
-
-  //     setAnswers(newArray);
-
-  //     setAnswers(oldArray => [
-  //       ...oldArray,
-  //       atob(quizData[questionTracker].correct_answer)
-  //     ]);
-  //     setCorrectAnwser(atob(quizData[questionTracker].correct_answer));
-  //   }
-  // }
 
   // function to go to next question
   function nextQuestion() {
@@ -45,6 +27,36 @@ function Quizpage() {
       console.log(questionTracker);
     } else {
       gameOver();
+      alert("your done");
+      if (!wasScoreSaved) {
+        wasScoreSaved = true;
+        saveScore()
+          .then(() => {
+            alert("User score saved.");
+          })
+          .catch(error => {
+            wasScoreSaved = false;
+            alert(error);
+          });
+      }
+    }
+  }
+
+  async function saveScore() {
+    try {
+      let response = await axios.post(
+        process.env.REACT_APP_BACKEND + "/save-score",
+        {
+          score: score,
+          date: new Date(),
+          topic: type
+        },
+        { withCredentials: true }
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Could not save user score.");
     }
   }
 
@@ -92,6 +104,7 @@ function Quizpage() {
   }, [type]);
   // this useEffect is used to set quiz data and sets new question data
   useEffect(() => {
+    // sets state from quizData
     function setQuestionData() {
       if (quizData.length > 0 && questionTracker <= 9) {
         setQuestion(atob(quizData[questionTracker].question));
@@ -114,13 +127,6 @@ function Quizpage() {
 
     setQuestionData();
   }, [quizData, questionTracker]);
-
-  // useeffect sets new question data when thier is a new question
-  // useEffect(() => {
-  //   if (questionTracker > 0) {
-  //     setQuestionData();
-  //   }
-  // }, [questionTracker]);
 
   return (
     <div className="quiz-page">
