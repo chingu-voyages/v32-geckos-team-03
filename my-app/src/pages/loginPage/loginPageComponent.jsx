@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import AutoLoginButton from "../../components/autoLoginButton/autoLoginButton.component";
 import LoginForm from "../../components/loginForm/loginForm.component";
 
 class LoginPage extends Component {
@@ -10,6 +11,7 @@ class LoginPage extends Component {
         </div>
         <div className="main">
           <LoginForm />
+          <AutoLoginButton />
         </div>
       </div>
     );
