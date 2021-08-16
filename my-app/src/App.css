@@ -27,6 +27,7 @@
 }
 
 .main {
+  margin-top: 25px;
   text-align: center;
 }
 
@@ -40,7 +41,6 @@
   width: 100%;
   /* width: 300px; */
   padding: 10px 10px 10px 5px;
-  margin: 25px 0;
   font-size: 18px;
   color: black;
   border: none;
@@ -53,6 +53,7 @@
   outline: none;
 }
 
+.btn,
 .submit-btn,
 .disabled-btn {
   width: 220px;
@@ -73,6 +74,7 @@
   cursor: not-allowed;
 }
 
+.btn,
 .submit-btn:hover {
   color: #ffffff;
   background-color: #17252a;
@@ -92,8 +94,4 @@
 .table td {
   margin: 0;
   padding: 10px;
-}
-
-.select-topic {
-  margin-top: 20px;
 }
