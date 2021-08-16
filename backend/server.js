@@ -109,6 +109,7 @@ app.post("/edit", async function (req, res) {
 
 app.get("/logout", function (req, res) {
   req.logout();
+  console.log(req.user);
   res.sendStatus(200);
 });
 
@@ -125,7 +126,7 @@ app.post("/save-score", checkAuthentication, async function (req, res) {
     user: req.user._id,
   });
   await newScore.save();
-  res.sendStatus(200);
+  res.json(newScore);
 });
 
 app.get("/get-scores", checkAuthentication, async function (req, res) {
@@ -137,4 +138,17 @@ app.get("/get-scores", checkAuthentication, async function (req, res) {
 app.get("/get-ranking", checkAuthentication, async function (req, res) {
   const allScores = await Score.find({}).populate("user");
   res.json(allScores);
+});
+
+app.get("/get-score/:id", async function (req, res) {
+  let scoreId = req.params?.id;
+  console.log(req.params);
+  if (!scoreId || !mongoose.isValidObjectId(scoreId)) {
+    res.sendStatus(400);
+    return;
+  }
+
+  const score = await Score.findById(scoreId).populate("user");
+  score.user.password = undefined;
+  res.json(score);
 });

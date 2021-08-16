@@ -4,18 +4,21 @@ import { useParams } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
 
 import axios from "axios";
+import QuizResults from "../../components/quizResults/quizResults.component";
 
 function Quizpage() {
   let { type } = useParams(); // type is either general question or id for for catigory
   let wasScoreSaved = false;
 
   // const userInfo = useContext(AuthContext);
+  const [done, setDone] = useState(false);
+  const [shareLink, setShareLink] = useState("");
   const [quizData, setQuizData] = useState([]); // 10 question objects is stored here
   const [questionTracker, setQuestionTracker] = useState(0); // keepts track of question number
   const [question, setQuestion] = useState(""); // current question
   const [answers, setAnswers] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState(""); // correct answer of current question
-  const [score, SetScore] = useState(0);
+  const [score, setScore] = useState(0);
 
   // sets state from quizData
   function setQuestionData() {
@@ -43,22 +46,31 @@ function Quizpage() {
 
       // console.log(questionTracker);
     } else {
-      console.log("You're done.");
-      if (!wasScoreSaved) {
-        wasScoreSaved = true;
-        saveScore()
-          .then(() => {
-            console.log("User score saved.");
-          })
-          .catch((error) => {
-            wasScoreSaved = false;
-            console.log(error);
-          });
-      }
+      endQuiz();
     }
   }
 
+  function endQuiz() {
+    setDone(true);
+    saveScore().then((scoreEntry) => {
+      let shareLink = generateShareLink(scoreEntry?._id);
+      console.log(shareLink);
+      setShareLink(shareLink);
+    });
+  }
+
+  function generateShareLink(scoreId) {
+    let baseURL = window.location.origin;
+    let shareLink = baseURL + "/share/" + scoreId;
+    return shareLink;
+  }
+
   async function saveScore() {
+    if (wasScoreSaved) {
+      return;
+    }
+
+    wasScoreSaved = true;
     try {
       let response = await axios.post(
         process.env.REACT_APP_BACKEND + "/save-score",
@@ -69,8 +81,10 @@ function Quizpage() {
         },
         { withCredentials: true }
       );
-      return response;
+      console.log("User score saved.");
+      return response.data;
     } catch (error) {
+      wasScoreSaved = false;
       console.log(error);
       throw new Error("Could not save user score.");
     }
@@ -80,7 +94,7 @@ function Quizpage() {
   function answerChecker(answer) {
     if (answer === correctAnswer) {
       console.log("correct");
-      SetScore((prevCount) => prevCount + 1);
+      setScore((prevCount) => prevCount + 1);
       nextQuestion();
     } else {
       nextQuestion();
@@ -103,7 +117,7 @@ function Quizpage() {
       })
       .then((res) => {
         setQuizData(res.data.results);
-        console.log(res);
+        // console.log(res);
       });
     // }
   }, []);
@@ -122,14 +136,21 @@ function Quizpage() {
 
   return (
     <div className="quiz-page">
-      <QuizTemplate
-        question={question}
-        answers={answers}
-        correctAnswer={correctAnswer}
-        answerChecker={answerChecker}
-        questionNumber={questionTracker + 1}
-        score={score}
-      />
+      {/* <button type="button" className="submit-btn" onClick={submitRandomQuiz}>
+        Random Quiz Result (Dev)
+      </button> */}
+      {done ? (
+        <QuizResults score={score} shareLink={shareLink} />
+      ) : (
+        <QuizTemplate
+          question={question}
+          answers={answers}
+          correctAnswer={correctAnswer}
+          answerChecker={answerChecker}
+          questionNumber={questionTracker + 1}
+          score={score}
+        />
+      )}
     </div>
   );
 }
