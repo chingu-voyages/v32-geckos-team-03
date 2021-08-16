@@ -133,31 +133,31 @@ function Quizpage() {
     }
   }, [type]);
 
-  axios
-    .get(
-      `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
-      {
-        withCredentials: false
-      }
-    )
-    .then(res => {
-      setQuizData(res.data.results);
-      console.log(res);
-    });
-  // }
-  // } else if (type !== "general") {
-  axios
-    .get(
-      `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
-      {
-        withCredentials: false
-      }
-    )
-    .then(res => {
-      setQuizData(res.data.results);
-      // console.log(res);
-    });
-  // }
+  // axios
+  //   .get(
+  //     `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
+  //     {
+  //       withCredentials: false
+  //     }
+  //   )
+  //   .then(res => {
+  //     setQuizData(res.data.results);
+  //     console.log(res);
+  //   });
+  // // }
+  // // } else if (type !== "general") {
+  // axios
+  //   .get(
+  //     `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
+  //     {
+  //       withCredentials: false
+  //     }
+  //   )
+  //   .then(res => {
+  //     setQuizData(res.data.results);
+  //     // console.log(res);
+  //   });
+  // // }
 
   // this useEffect is only used for the first component mount only
   useEffect(() => {
