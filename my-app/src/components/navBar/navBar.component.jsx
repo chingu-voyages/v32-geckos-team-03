@@ -19,6 +19,9 @@ function NavBar(props) {
               <LinkButton text="Previous Scores" path="/scores" />
             </li>
             <li>
+              <LinkButton text="Ranking" path="/ranking" />
+            </li>
+            <li>
               <LinkButton text="Logout" path="/logout" />
             </li>
           </>

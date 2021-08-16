@@ -5,7 +5,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-const User = require("./models/user.model");
+const MongoStore = require("connect-mongo");
+const { User, Score } = require("./models/user.model");
 const LocalStrategy = require("passport-local").Strategy;
 
 mongoose.connect(config.CONNECTION_STRING, {
@@ -14,6 +15,7 @@ mongoose.connect(config.CONNECTION_STRING, {
   useCreateIndex: true,
 });
 
+// new
 const app = express();
 app.use(
   cors({
@@ -27,6 +29,9 @@ app.use(
     secret: "randomsecret",
     resave: true,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: config.CONNECTION_STRING,
+    }),
   })
 );
 app.use(passport.initialize());
@@ -107,13 +112,7 @@ app.get("/logout", function (req, res) {
   res.sendStatus(200);
 });
 
-app.post("/save-score", async function (req, res) {
-  const currentUser = req.user;
-  if (!currentUser) {
-    res.sendStatus(401);
-    return;
-  }
-
+app.post("/save-score", checkAuthentication, async function (req, res) {
   // How can we be sure that this is the user's true score?
   let newScoreData = req.body;
   if (!newScoreData) {
@@ -121,12 +120,21 @@ app.post("/save-score", async function (req, res) {
     return;
   }
 
-  currentUser.scores.push(newScoreData);
-  await currentUser.save();
+  newScore = new Score({
+    ...newScoreData,
+    user: req.user._id,
+  });
+  await newScore.save();
   res.sendStatus(200);
 });
 
-app.get("/get-scores", checkAuthentication, function (req, res) {
-  const currentUser = req.user;
-  res.json(currentUser.scores);
+app.get("/get-scores", checkAuthentication, async function (req, res) {
+  const scores = await Score.find({ user: req.user._id });
+  // console.log(scores);
+  res.json(scores);
+});
+
+app.get("/get-ranking", checkAuthentication, async function (req, res) {
+  const allScores = await Score.find({}).populate("user");
+  res.json(allScores);
 });

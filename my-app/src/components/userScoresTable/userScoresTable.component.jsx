@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import TOPICS from "../../topics.js";
 
 class UserScoresTable extends Component {
   state = {
@@ -23,14 +24,17 @@ class UserScoresTable extends Component {
     }
   }
 
+  getTopicName(number) {
+    let category = TOPICS.find((category) => {
+      return category.id === number;
+    });
+    return category.name;
+  }
+
   render() {
     const savedScores = this.state.scores;
     if (!savedScores) {
-      return (
-        <tr>
-          <td colspan="3">No scores to be shown.</td>
-        </tr>
-      );
+      return <p>No scores to be shown.</p>;
     }
 
     const scoresList = savedScores.map((row, index) => {
@@ -38,7 +42,7 @@ class UserScoresTable extends Component {
         <tr key={index}>
           <td>{row.points}</td>
           <td>{new Date(row.date).toLocaleDateString()}</td>
-          <td>{row.topic}</td>
+          <td>{this.getTopicName(row.topic)}</td>
         </tr>
       );
     });
@@ -47,7 +51,7 @@ class UserScoresTable extends Component {
       <table className="table scores-table">
         <thead>
           <tr>
-            <th>Scores</th>
+            <th>Score</th>
             <th>Date</th>
             <th>Topic</th>
           </tr>
@@ -55,7 +59,7 @@ class UserScoresTable extends Component {
         <tbody>{scoresList}</tbody>
         <tfoot>
           <tr>
-            <td colspan="3">End of scores</td>
+            <td colSpan="3">End of scores</td>
           </tr>
         </tfoot>
       </table>
