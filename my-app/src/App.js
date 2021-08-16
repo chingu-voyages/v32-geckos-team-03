@@ -11,6 +11,8 @@ import EditPage from "./pages/editPage/editPageComponent.jsx";
 import "./App.css";
 import LogoutPage from "./pages/logoutPage/logoutPageComponent";
 import NavBar from "./components/navBar/navBar.component";
+import ScoresPage from "./pages/scoresPage/scoresPageComponent";
+import RankingPage from "./pages/rankingPage/rankingPageComponent";
 
 class App extends Component {
   static contextType = AuthContext;
@@ -51,6 +53,8 @@ class App extends Component {
             <Route path="/homepage" component={Homepage} />
             <Route path="/quizpage/:type" component={Quizpage} />
             <Route path="/edit" component={EditPage} />
+            <Route path="/scores" component={ScoresPage} />
+            <Route path="/ranking" component={RankingPage} />
             <Route path="/logout" component={LogoutPage} />
             <Route exact path="/" component={Homepage} />
             {this.getDefaultPrivateRoute()}

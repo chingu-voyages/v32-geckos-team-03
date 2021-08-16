@@ -24,19 +24,20 @@ function Quizpage() {
       //    increments to next question
       setQuestionTracker(prevCount => prevCount + 1);
 
-      console.log(questionTracker);
+      // console.log(questionTracker);
     } else {
       gameOver();
       alert("your done");
+      console.log("You're done.");
       if (!wasScoreSaved) {
         wasScoreSaved = true;
         saveScore()
           .then(() => {
-            alert("User score saved.");
+            console.log("User score saved.");
           })
           .catch(error => {
             wasScoreSaved = false;
-            alert(error);
+            console.log(error);
           });
       }
     }
@@ -47,9 +48,10 @@ function Quizpage() {
       let response = await axios.post(
         process.env.REACT_APP_BACKEND + "/save-score",
         {
-          score: score,
+          points: score,
           date: new Date(),
-          topic: type
+          topic: type,
+          topic: type === "general" ? 9 : Number(type)
         },
         { withCredentials: true }
       );
@@ -65,6 +67,8 @@ function Quizpage() {
     if (answer === correctAnswer) {
       // alert("correct");
       SetScore(prevCount => prevCount + 1);
+      console.log("correct");
+
       nextQuestion();
     } else {
       nextQuestion();
@@ -103,6 +107,28 @@ function Quizpage() {
     }
   }, [type]);
   // this useEffect is used to set quiz data and sets new question data
+  type = 9;
+  // axios
+  //   .get("https://opentdb.com/api.php?amount=10&type=multiple&encode=base64", { withCredentials: false })
+  //   .then((res) => {
+  //     setQuizData(res.data.results);
+  //   });
+
+  // } else if (type !== "general") {
+  axios
+    .get(
+      `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
+      {
+        withCredentials: false
+      }
+    )
+    .then(res => {
+      setQuizData(res.data.results);
+      console.log(res);
+    });
+  // }
+
+  // this useEffect is only used for the first component mount only
   useEffect(() => {
     // sets state from quizData
     function setQuestionData() {
