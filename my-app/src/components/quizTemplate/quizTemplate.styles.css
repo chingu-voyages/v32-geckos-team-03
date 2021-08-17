@@ -7,11 +7,11 @@
 
 .question {
   color: #feffff;
-  border-width: 1px;
+  /* border-width: 1px;
   border-style: solid;
-  border-color: white;
+  border-color: white; */
   padding: 15px;
-  border-radius: 25px;
+  /* border-radius: 25px; */
 }
 
 .answer-container {

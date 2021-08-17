@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import "./quizAnswerBox.styles.css";
 
-function QuizAnswerBox({ answer, answerChecker }) {
+function QuizAnswerBox({ answer, answerChecker, correctAnswer }) {
+  const [displayAnswer, setDisplayAnswer] = useState("");
+  // const [disabled, setDisabled] = useState(false);
+
+  function revealAnswer() {
+    setDisplayAnswer(correctAnswer);
+  }
+
   return (
     <button
-      className="answer-button"
+      className={
+        answer == displayAnswer ? `green answer-button` : `answer-button`
+      }
       onClick={() => {
-        answerChecker(answer);
+        revealAnswer();
+
+        setTimeout(() => {
+          answerChecker(answer);
+        }, 200);
       }}
     >
       {answer}

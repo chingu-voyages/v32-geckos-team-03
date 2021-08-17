@@ -10,10 +10,6 @@ function Homepage() {
   return (
     <div className="homepage">
       <div className="homepage-inner">
-        <div>
-          <Link to="/homepage">Home</Link>
-        </div>
-
         <div className="homepage-boxes">
           <SelectionBox title="General Knowledge Quiz" buttonName="BEGIN" link="quizpage/general" />
 
