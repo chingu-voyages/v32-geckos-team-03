@@ -8,6 +8,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 .topic-btn {
   color: #494949 !important;
@@ -44,4 +46,17 @@
 
 .topic-select {
   margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 750px) {
+  .topic-box {
+    margin-bottom: -30px;
+  }
+  .topic-header {
+    font-size: 20px;
+  }
+
+  .topic-select {
+    width: 90%;
+  }
 }
