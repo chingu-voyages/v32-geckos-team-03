@@ -31,7 +31,7 @@
   transition: all 0.4s ease 0s;
 }
 
-@media only screen and (max-width: 7500px) {
+@media only screen and (max-width: 750px) {
   .box {
     margin-bottom: 10px;
   }
