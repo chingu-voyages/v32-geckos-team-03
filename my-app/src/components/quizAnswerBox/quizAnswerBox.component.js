@@ -19,7 +19,7 @@ function QuizAnswerBox({ answer, answerChecker, correctAnswer }) {
 
         setTimeout(() => {
           answerChecker(answer);
-        }, 200);
+        }, 300);
       }}
     >
       {answer}
