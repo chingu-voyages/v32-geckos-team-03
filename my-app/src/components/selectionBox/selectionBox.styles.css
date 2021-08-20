@@ -8,6 +8,9 @@
   align-items: center;
 }
 
+.box-title {
+  text-align: center;
+}
 .selection-btn {
   color: #494949 !important;
   text-transform: uppercase;
@@ -21,18 +24,18 @@
   margin-bottom: 10px;
 }
 
-/* .third {
-  border-color: $blue;
-  color: #fff;
-  box-shadow: 0 0 40px 40px $blue inset, 0 0 0 0 $blue;
-  transition: all 150ms ease-in-out;
-  
- 
-} */
-
 .selection-btn:hover {
   color: #ffffff !important;
   background: #17252a;
   border-color: #17252a !important;
   transition: all 0.4s ease 0s;
+}
+
+@media only screen and (max-width: 750px) {
+  .box {
+    margin-bottom: 10px;
+  }
+  .box-title {
+    font-size: 20px;
+  }
 }

@@ -19,3 +19,14 @@
 .green {
   background-color: green !important;
 }
+
+@media only screen and (max-width: 1000px) {
+  .homepage-inner {
+    top: 70%;
+  }
+
+  .homepage-boxes {
+    flex-direction: column;
+    align-items: center;
+  }
+}

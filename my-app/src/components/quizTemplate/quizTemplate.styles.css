@@ -3,20 +3,30 @@
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-width: 600px;
 }
 
 .question {
   color: #feffff;
-  /* border-width: 1px;
-  border-style: solid;
-  border-color: white; */
+
   padding: 15px;
-  /* border-radius: 25px; */
+
+  text-align: center;
 }
 
 .answer-container {
-  min-width: 500px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+@media only screen and (max-width: 855px) {
+  .answer-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .question {
+    font-size: 16px;
+  }
 }
