@@ -1,6 +1,18 @@
 import React, { Component } from "react";
+import TopicBox from "../topicBox/topicBox.component";
+import { Link } from "react-router-dom";
 
 class QuizResults extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  toggleQuiz() {
+    // this.props.setDone(!this.props.done);
+    // console.log(this);
+  }
   render() {
     console.log(this.props);
     return (
@@ -15,6 +27,10 @@ class QuizResults extends Component {
           <p>Share it with your friends:</p>
           <a href={this.props.shareLink}>{this.props.shareLink}</a>
         </div>
+        <button onClick={() => this.props.setDone(false)}>take again</button>
+        <button onClick={() => this.props.setDone(false)}>
+          <Link to="/homepage">Home</Link>
+        </button>
       </div>
     );
   }

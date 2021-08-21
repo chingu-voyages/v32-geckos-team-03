@@ -30,8 +30,7 @@ function Quizpage() {
       // console.log(questionTracker);
     } else {
       gameOver();
-      alert("your done");
-      console.log("You're done.");
+
       if (!wasScoreSaved) {
         wasScoreSaved = true;
         saveScore()
@@ -48,7 +47,8 @@ function Quizpage() {
   }
 
   function endQuiz() {
-    setDone(true);
+    // setDone(true);
+
     saveScore().then(scoreEntry => {
       let shareLink = generateShareLink(scoreEntry?._id);
       console.log(shareLink);
@@ -93,7 +93,6 @@ function Quizpage() {
     if (answer === correctAnswer) {
       // alert("correct");
       SetScore(prevCount => prevCount + 1);
-      console.log("correct");
 
       nextQuestion();
     } else {
@@ -101,37 +100,46 @@ function Quizpage() {
     }
   }
 
-  // function displays new page when quiz is over
   function gameOver() {
+    setQuestionTracker(0);
+
+    setDone(true);
+    setQuestion("");
+    setQuizData([]);
+    setAnswers([]);
     setTimeout(() => {
-      history.push("/homepage");
+      history.push(`/quizpage/${type}`);
     }, 1000);
   }
   // useffect is only ran once to fetch and store data from the api
   useEffect(() => {
-    if (type === "general") {
-      axios
-        .get(
-          "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64",
-          { withCredentials: false }
-        )
-        .then(res => {
-          setQuizData(res.data.results);
-        });
-    } else if (type !== "general") {
-      axios
-        .get(
-          `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
-          {
-            withCredentials: false
-          }
-        )
-        .then(res => {
-          setQuizData(res.data.results);
-          console.log(res);
-        });
+    // if statement to prevent new set of questions when done dependency is true after last question
+    if (done == false) {
+      SetScore(0);
+      if (type === "general") {
+        axios
+          .get(
+            "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64",
+            { withCredentials: false }
+          )
+          .then(res => {
+            setQuizData(res.data.results);
+          });
+      } else if (type !== "general") {
+        axios
+          .get(
+            `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
+            {
+              withCredentials: false
+            }
+          )
+          .then(res => {
+            setQuizData(res.data.results);
+            console.log(res);
+          });
+      }
     }
-  }, [type]);
+  }, [type, done]);
 
   // axios
   //   .get(
@@ -191,7 +199,13 @@ function Quizpage() {
         Random Quiz Result (Dev)
       </button> */}
       {done ? (
-        <QuizResults score={score} shareLink={shareLink} />
+        <QuizResults
+          score={score}
+          shareLink={shareLink}
+          setDone={setDone}
+          done={done}
+          type={type}
+        />
       ) : (
         <QuizTemplate
           question={question}
