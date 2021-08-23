@@ -1,5 +1,5 @@
 .nav-bar {
-  width: 100%;
+  width: 100vw;
   position: relative;
   top: 0;
   left: 0;
@@ -9,7 +9,7 @@
 
 .nav-bar ul {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -17,4 +17,42 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+@media only screen and (max-width: 640px) {
+  .nav-bar {
+    overflow: hidden;
+
+    padding: 0px;
+    z-index: 9999;
+  }
+  .nav-bar ul {
+    flex-direction: column;
+  }
+}
+
+.close-menu {
+  height: 0px;
+  overflow: hidden;
+}
+
+.menu-icon {
+  width: 35px;
+  height: 5px;
+  background-color: black;
+  margin: 6px 0;
+}
+
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 9999;
 }
