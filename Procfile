@@ -1,1 +1,1 @@
-web: cd my-app && npm start
+web: cd my-app && npm run build
