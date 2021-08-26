@@ -28,7 +28,8 @@ class LoginForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.login()
-      .then(() => {
+      .then((response) => {
+        console.log(response);
         window.location.href = "/";
       })
       .catch((error) => this.setStatus(error));
@@ -44,10 +45,12 @@ class LoginForm extends Component {
           password: this.state.password,
         },
         validateStatus: (status) => status === 200,
+        withCredentials: false,
       });
       return response;
-    } catch ({ response }) {
-      if (response.status === 401) {
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
         throw new Error("Email or password incorrect.");
       } else {
         throw new Error("Unknown login error.");
