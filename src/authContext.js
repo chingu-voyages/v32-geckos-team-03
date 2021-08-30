@@ -1,5 +1,6 @@
 import React, { Component, createContext } from "react";
 import axios from "axios";
+// import fetch from "node-fetch";
 
 const AuthContext = createContext();
 
@@ -26,7 +27,7 @@ class ProvideAuth extends Component {
         this.setState({ user });
       })
       .catch((error) => {
-        console.log(error);
+        console.dir(error);
         this.setState({ user: null });
       });
   }
@@ -38,7 +39,7 @@ class ProvideAuth extends Component {
       url: process.env.REACT_APP_BACKEND + "/user",
       withCredentials: true,
     });
-    console.log(response);
+    console.dir(response);
     return response;
   }
 
