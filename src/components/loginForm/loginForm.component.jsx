@@ -47,6 +47,7 @@ class LoginForm extends Component {
         validateStatus: (status) => status === 200,
         withCredentials: false,
       });
+      console.log(response);
       return response;
     } catch (error) {
       console.log(error);

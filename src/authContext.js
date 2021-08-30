@@ -16,16 +16,19 @@ class ProvideAuth extends Component {
         this.setState({ user });
       })
       .catch((error) => {
+        console.log(error);
         this.setState({ user: null });
       });
   }
 
   async getUserInfo() {
     axios.defaults.withCredentials = true;
-    return await axios({
+    let response = await axios({
       method: "GET",
       url: process.env.REACT_APP_BACKEND + "/user",
     });
+    console.log(response);
+    return response;
   }
 
   render() {
