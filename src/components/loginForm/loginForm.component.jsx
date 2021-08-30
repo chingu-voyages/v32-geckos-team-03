@@ -45,7 +45,6 @@ class LoginForm extends Component {
           password: this.state.password,
         },
         validateStatus: (status) => status === 200,
-        withCredentials: false,
       });
       console.log(response);
       return response;

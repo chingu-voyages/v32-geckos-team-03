@@ -18,7 +18,7 @@ class SharePage extends Component {
   }
 
   async getScore(id) {
-    let response = await axios.get(process.env.REACT_APP_BACKEND + "/get-score/" + id, { withCredentials: false });
+    let response = await axios.get(process.env.REACT_APP_BACKEND + "/get-score/" + id);
     return response.data;
   }
 

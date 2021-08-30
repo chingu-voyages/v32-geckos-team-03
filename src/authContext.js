@@ -26,6 +26,7 @@ class ProvideAuth extends Component {
     let response = await axios({
       method: "GET",
       url: process.env.REACT_APP_BACKEND + "/user",
+      withCredentials: true,
     });
     console.log(response);
     return response;
