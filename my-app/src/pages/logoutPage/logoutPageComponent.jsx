@@ -8,8 +8,8 @@ class LogoutPage extends Component {
       setTimeout(() => (window.location.href = "/login"), 500);
     });
     return (
-      <div className="logout-page card">
-        <div className="main">Logging out...</div>
+      <div className="logout-page page card">
+        <div className="page">Logging out...</div>
       </div>
     );
   }

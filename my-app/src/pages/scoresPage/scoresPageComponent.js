@@ -4,7 +4,7 @@ import UserScoresTable from "../../components/userScoresTable/userScoresTable.co
 class ScoresPage extends Component {
   render() {
     return (
-      <div className="scores-page card">
+      <div className="scores-page page card">
         <div className="header">
           <h1>Previous Scores</h1>
         </div>

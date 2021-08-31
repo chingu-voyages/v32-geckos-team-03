@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LinkButton from "../linkButton/linkButton.component";
 
-import "./navBar.styles.css";
-
 function NavBar(props) {
   const [isMobile, setIsMobile] = useState(false);
   const [show, setShow] = useState(false);
@@ -37,14 +35,15 @@ function NavBar(props) {
   }, []);
   // console.log(isMobile);
   return (
-    <div>
+    <>
       <nav className={isMobile ? "nav-bar close-menu" : " nav-bar open-menu"}>
+        <div className="logo" onClick={() => (window.location.href = "/")}></div>
         <ul>
           {props.isAuthenticated ? (
             <>
-              <li>
+              {/* <li>
                 <LinkButton text="Home" path="/" />
-              </li>
+              </li> */}
               <li>
                 <LinkButton text="Edit User" path="/edit" />
               </li>
@@ -71,7 +70,7 @@ function NavBar(props) {
         </ul>
       </nav>
 
-      {isMobile ? (
+      {/* {isMobile ? (
         <div className="mobile-menu icon" onClick={openMenu}>
           <div className="menu-icon"></div>
           <div className="menu-icon"></div>
@@ -81,8 +80,8 @@ function NavBar(props) {
         <div className={show ? "show icon" : "hide icon"} onClick={closeMenu}>
           X
         </div>
-      )}
-    </div>
+      )} */}
+    </>
   );
 }
 

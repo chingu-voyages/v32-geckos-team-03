@@ -126,7 +126,7 @@ function Quizpage() {
   }
 
   return (
-    <div className="quiz-page">
+    <div className="quiz-page page">
       {done ? (
         <QuizResults score={score} shareLink={shareLink} setDone={setDone} done={done} type={type} />
       ) : (

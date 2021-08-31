@@ -28,7 +28,7 @@ class AutoLoginButton extends Component {
 
   render() {
     return (
-      <button type="button" className="submit-btn" onClick={this.autoLogin}>
+      <button type="button" className="btn green submit-btn auto-login-btn" onClick={this.autoLogin}>
         Auto Login (Dev)
       </button>
     );

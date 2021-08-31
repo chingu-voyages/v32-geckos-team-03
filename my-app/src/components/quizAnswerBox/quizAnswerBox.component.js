@@ -9,15 +9,17 @@ function QuizAnswerBox({ answer, answerChecker, correctAnswer }) {
     setDisplayAnswer(correctAnswer);
   }
 
+  let classes = "answer-button btn";
   return (
     <button
-      className={answer === displayAnswer ? `green answer-button` : `answer-button`}
+      className={answer === displayAnswer ? `green ${classes}` : displayAnswer !== "" ? `red ${classes}` : classes}
       onClick={() => {
         revealAnswer();
 
         setTimeout(() => {
           answerChecker(answer);
-        }, 300);
+          setDisplayAnswer("");
+        }, 1000);
       }}
     >
       {answer}
