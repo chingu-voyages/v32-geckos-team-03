@@ -1,1 +1,1 @@
-web: npm run build
+web: nodemon backend/server.js
