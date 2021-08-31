@@ -2,14 +2,7 @@ import React from "react";
 import QuizAnswerBox from "../quizAnswerBox/quizAnswerBox.component";
 import "./quizTemplate.styles.css";
 
-function QuizTemplate({
-  question,
-  answers,
-  correctAnswer,
-  answerChecker,
-  questionNumber,
-  score
-}) {
+function QuizTemplate({ question, answers, correctAnswer, answerChecker, questionNumber, score }) {
   // shuffles anwsers
   function shuffle(array) {
     var currentIndex = array.length,
@@ -22,16 +15,13 @@ function QuizTemplate({
       currentIndex--;
 
       // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex]
-      ];
+      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
     }
 
     return array;
   }
 
-  console.log(correctAnswer);
+  // console.log(correctAnswer);
 
   return (
     <div className="quiz-template">
@@ -40,14 +30,7 @@ function QuizTemplate({
       </div>
       <div className="answer-container">
         {shuffle(answers).map((ans, i) => {
-          return (
-            <QuizAnswerBox
-              answer={ans}
-              answerChecker={answerChecker}
-              correctAnswer={correctAnswer}
-              key={i}
-            />
-          );
+          return <QuizAnswerBox answer={ans} answerChecker={answerChecker} correctAnswer={correctAnswer} key={i} />;
         })}
       </div>
       <div>

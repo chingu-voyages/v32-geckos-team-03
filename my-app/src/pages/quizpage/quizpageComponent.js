@@ -1,68 +1,100 @@
 import React, { useState, useEffect } from "react";
-import "./quizpage.styles.css";
-import { useParams, Link, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import QuizTemplate from "../../components/quizTemplate/quizTemplate.component";
-
-import axios from "axios";
 import QuizResults from "../../components/quizResults/quizResults.component";
+import axios from "axios";
+import "./quizpage.styles.css";
 
 function Quizpage() {
-  let { type } = useParams(); // type is either general question or id for for catigory
+  let { type } = useParams(); // type is either general question or id for for category
   let history = useHistory();
   let wasScoreSaved = false;
 
-  // const userInfo = useContext(AuthContext);
   const [done, setDone] = useState(false);
   const [shareLink, setShareLink] = useState("");
   const [quizData, setQuizData] = useState([]); // 10 question objects is stored here
   const [questionTracker, setQuestionTracker] = useState(0); // keepts track of question number
   const [question, setQuestion] = useState(""); // current question
   const [answers, setAnswers] = useState([]);
-  const [correctAnswer, setCorrectAnwser] = useState(""); // correct answer of current question
-  const [score, SetScore] = useState(0);
+  const [correctAnswer, setCorrectAnswer] = useState(""); // correct answer of current question
+  const [score, setScore] = useState(0);
 
-  // function to go to next question
-  function nextQuestion() {
-    if (questionTracker < 9) {
-      //    increments to next question
-      setQuestionTracker(prevCount => prevCount + 1);
+  useEffect(() => {
+    function getQuizData() {
+      // general is category number 9
+      let category = type === "general" ? 9 : type;
+      return axios.get(`https://opentdb.com/api.php?amount=10&category=${category}&type=multiple&encode=base64`, {
+        withCredentials: false,
+      });
+    }
 
-      // console.log(questionTracker);
-    } else {
-      gameOver();
+    if (done === false) {
+      setScore(0);
+      getQuizData().then((response) => {
+        setQuizData(response.data.results);
+      });
+    }
+  }, [type, done]);
 
-      if (!wasScoreSaved) {
-        wasScoreSaved = true;
-        saveScore()
-          .then(() => {
-            console.log("User score saved.");
-          })
-          .catch(error => {
-            wasScoreSaved = false;
-            console.log(error);
-          });
+  useEffect(() => {
+    function setQuestionData() {
+      if (quizData.length > 0 && questionTracker <= 9) {
+        let currentQuestion = quizData[questionTracker];
+
+        let question = atob(currentQuestion.question);
+        let incorrectAnswers = currentQuestion.incorrect_answers.map(atob);
+        let correctAnswer = atob(currentQuestion.correct_answer);
+
+        setQuestion(question);
+        setAnswers([...incorrectAnswers, correctAnswer]);
+        setCorrectAnswer(correctAnswer);
       }
-      endQuiz();
+    }
+
+    setQuestionData();
+  }, [quizData, questionTracker]);
+
+  function answerChecker(answer) {
+    if (questionTracker === 9) {
+      gameOver();
+    }
+
+    if (questionTracker > 9) return;
+
+    if (answer === correctAnswer) {
+      setScore((prevCount) => prevCount + 1);
+      nextQuestion();
+    } else {
+      nextQuestion();
     }
   }
 
-  function endQuiz() {
-    // setDone(true);
-
-    saveScore().then(scoreEntry => {
-      let shareLink = generateShareLink(scoreEntry?._id);
-      console.log(shareLink);
-      setShareLink(shareLink);
-    });
+  function nextQuestion() {
+    console.log(questionTracker);
+    if (questionTracker < 9) {
+      setQuestionTracker((prevCount) => prevCount + 1);
+    }
   }
 
-  function generateShareLink(scoreId) {
-    let baseURL = window.location.origin;
-    let shareLink = baseURL + "/share/" + scoreId;
-    return shareLink;
+  function gameOver() {
+    setDone(true);
+    setQuestionTracker(0);
+    setQuestion("");
+    setQuizData([]);
+    setAnswers([]);
+
+    saveScore().then((scoreEntry) => {
+      let shareLink = generateShareLink(scoreEntry?._id);
+      setShareLink(shareLink);
+    });
+
+    setTimeout(() => {
+      history.push(`/quizpage/${type}`);
+    }, 1000);
   }
 
   async function saveScore() {
+    console.log("wasScoreSaved", wasScoreSaved);
     if (wasScoreSaved) {
       return;
     }
@@ -74,8 +106,7 @@ function Quizpage() {
         {
           points: score,
           date: new Date(),
-          topic: type,
-          topic: type === "general" ? 9 : Number(type)
+          topic: type === "general" ? 9 : Number(type),
         },
         { withCredentials: true }
       );
@@ -88,124 +119,16 @@ function Quizpage() {
     }
   }
 
-  // function checks if answer is right or wrong
-  function answerChecker(answer) {
-    if (answer === correctAnswer) {
-      // alert("correct");
-      SetScore(prevCount => prevCount + 1);
-
-      nextQuestion();
-    } else {
-      nextQuestion();
-    }
+  function generateShareLink(scoreId) {
+    let baseURL = window.location.origin;
+    let shareLink = baseURL + "/share/" + scoreId;
+    return shareLink;
   }
-
-  function gameOver() {
-    setQuestionTracker(0);
-
-    setDone(true);
-    setQuestion("");
-    setQuizData([]);
-    setAnswers([]);
-    setTimeout(() => {
-      history.push(`/quizpage/${type}`);
-    }, 1000);
-  }
-  // useffect is only ran once to fetch and store data from the api
-  useEffect(() => {
-    // if statement to prevent new set of questions when done dependency is true after last question
-    if (done == false) {
-      SetScore(0);
-      if (type === "general") {
-        axios
-          .get(
-            "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64",
-            { withCredentials: false }
-          )
-          .then(res => {
-            setQuizData(res.data.results);
-          });
-      } else if (type !== "general") {
-        axios
-          .get(
-            `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
-            {
-              withCredentials: false
-            }
-          )
-          .then(res => {
-            setQuizData(res.data.results);
-            console.log(res);
-          });
-      }
-    }
-  }, [type, done]);
-
-  // axios
-  //   .get(
-  //     `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
-  //     {
-  //       withCredentials: false
-  //     }
-  //   )
-  //   .then(res => {
-  //     setQuizData(res.data.results);
-  //     console.log(res);
-  //   });
-  // // }
-  // // } else if (type !== "general") {
-  // axios
-  //   .get(
-  //     `https://opentdb.com/api.php?amount=10&category=${type}&type=multiple&encode=base64`,
-  //     {
-  //       withCredentials: false
-  //     }
-  //   )
-  //   .then(res => {
-  //     setQuizData(res.data.results);
-  //     // console.log(res);
-  //   });
-  // // }
-
-  // this useEffect is only used for the first component mount only
-  useEffect(() => {
-    // sets state from quizData
-    function setQuestionData() {
-      if (quizData.length > 0 && questionTracker <= 9) {
-        setQuestion(atob(quizData[questionTracker].question));
-
-        let anwsers = quizData[questionTracker].incorrect_answers;
-        //  atob function is used to encode api string
-        let newArray = anwsers.map(anw => {
-          return atob(anw);
-        });
-
-        setAnswers(newArray);
-
-        setAnswers(oldArray => [
-          ...oldArray,
-          atob(quizData[questionTracker].correct_answer)
-        ]);
-        setCorrectAnwser(atob(quizData[questionTracker].correct_answer));
-      }
-    }
-
-    setQuestionData();
-  }, [quizData, questionTracker]);
 
   return (
     <div className="quiz-page">
-      {/* <button type="button" className="submit-btn" onClick={submitRandomQuiz}>
-        Random Quiz Result (Dev)
-      </button> */}
       {done ? (
-        <QuizResults
-          score={score}
-          shareLink={shareLink}
-          setDone={setDone}
-          done={done}
-          type={type}
-        />
+        <QuizResults score={score} shareLink={shareLink} setDone={setDone} done={done} type={type} />
       ) : (
         <QuizTemplate
           question={question}

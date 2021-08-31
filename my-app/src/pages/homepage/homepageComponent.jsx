@@ -1,8 +1,6 @@
 import React from "react";
 import "./homepage.styles.css";
 
-import { Link } from "react-router-dom";
-
 import SelectionBox from "../../components/selectionBox/selectionBox.component";
 import TopicBox from "../../components/topicBox/topicBox.component";
 

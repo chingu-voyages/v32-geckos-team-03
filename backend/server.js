@@ -140,7 +140,6 @@ app.post("/edit", async function (req, res) {
 
 app.post("/logout", function (req, res) {
   req.logout();
-  // console.log(req.user);
   res.sendStatus(200);
   return;
 });
@@ -152,6 +151,7 @@ app.post("/save-score", checkAuthentication, async function (req, res) {
     res.sendStatus(400);
     return;
   }
+  console.log(newScoreData);
 
   newScore = new Score({
     ...newScoreData,

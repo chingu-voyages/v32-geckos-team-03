@@ -11,9 +11,7 @@ function QuizAnswerBox({ answer, answerChecker, correctAnswer }) {
 
   return (
     <button
-      className={
-        answer == displayAnswer ? `green answer-button` : `answer-button`
-      }
+      className={answer === displayAnswer ? `green answer-button` : `answer-button`}
       onClick={() => {
         revealAnswer();
 

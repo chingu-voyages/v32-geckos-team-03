@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TopicBox from "../topicBox/topicBox.component";
 import { Link } from "react-router-dom";
 
 class QuizResults extends Component {
@@ -14,7 +13,7 @@ class QuizResults extends Component {
     // console.log(this);
   }
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div className="quiz-results card">
         <div className="header">

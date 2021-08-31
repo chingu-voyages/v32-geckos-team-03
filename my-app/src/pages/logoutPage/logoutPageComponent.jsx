@@ -3,8 +3,15 @@ import axios from "axios";
 
 class LogoutPage extends Component {
   render() {
-    axios.post(process.env.REACT_APP_BACKEND + "/logout").then((window.location.href = "/login"));
-    return null;
+    axios.post(process.env.REACT_APP_BACKEND + "/logout").then((response) => {
+      console.log(response);
+      setTimeout(() => (window.location.href = "/login"), 500);
+    });
+    return (
+      <div className="logout-page card">
+        <div className="main">Logging out...</div>
+      </div>
+    );
   }
 }
 
