@@ -6,7 +6,8 @@
   "scripts": {
     "backend": "nodemon backend/server.js",
     "frontend": "cd my-app && npm start",
-    "build-start": "cd my-app && npm run build && cd .. && npm run backend",
+    "start": "nodemon backend/server.js",
+    "build": "cd my-app && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
