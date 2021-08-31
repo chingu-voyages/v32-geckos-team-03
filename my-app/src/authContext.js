@@ -8,16 +8,6 @@ class ProvideAuth extends Component {
   state = { user: undefined };
 
   componentDidMount() {
-    axios.interceptors.request.use((request) => {
-      console.log("Starting Request", JSON.stringify(request, null, 2));
-      return request;
-    });
-
-    axios.interceptors.response.use((response) => {
-      console.log("Response:", JSON.stringify(response, null, 2));
-      return response;
-    });
-
     this.setAuthContext();
   }
 
@@ -27,7 +17,6 @@ class ProvideAuth extends Component {
         this.setState({ user });
       })
       .catch((error) => {
-        console.dir(error);
         this.setState({ user: null });
       });
   }
@@ -39,7 +28,7 @@ class ProvideAuth extends Component {
       url: process.env.REACT_APP_BACKEND + "/user",
       withCredentials: true,
     });
-    console.dir(response);
+    // console.dir(response);
     return response;
   }
 

@@ -3,6 +3,7 @@ const session = require("express-session");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const path = require("path");
 const passport = require("passport");
 const MongoStore = require("connect-mongo");
 const { User, Score } = require("./models/user.model");
@@ -64,12 +65,12 @@ const localAuth = new LocalStrategy({ usernameField: "email" }, async function (
 passport.use(localAuth);
 
 passport.serializeUser(function (user, done) {
-  console.log("Creating cookies.");
+  // console.log("Creating cookies.");
   done(null, user.id);
 });
 
 passport.deserializeUser(function (id, done) {
-  console.log("Reading cookies.");
+  // console.log("Reading cookies.");
   User.findById(id, function (err, user) {
     done(err, user);
   });
@@ -99,24 +100,27 @@ app.post("/sign-up", async function (req, res) {
     await User.register(req.body);
     res.sendStatus(201);
   }
+  return;
 });
 
 app.post("/login", (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   next();
 });
 
 app.post("/login", passport.authenticate("local"), (req, res) => {
-  console.log("Login successful.");
+  // console.log("Login successful.");
   res.sendStatus(200);
+  return;
 });
 
 app.get("/user", function (req, res) {
-  console.log(req.headers);
-  console.log(req.get("origin"));
-  console.log(req.session);
-  console.log(req.user);
+  // console.log(req.headers);
+  // console.log(req.get("origin"));
+  // console.log(req.session);
+  // console.log("User:", req.user);
   req.user ? res.json(req.user) : res.sendStatus(401);
+  return;
 });
 
 app.post("/edit", async function (req, res) {
@@ -131,12 +135,14 @@ app.post("/edit", async function (req, res) {
 
   await currentUser.edit(name, password);
   res.sendStatus(200);
+  return;
 });
 
-app.get("/logout", function (req, res) {
+app.post("/logout", function (req, res) {
   req.logout();
-  console.log(req.user);
+  // console.log(req.user);
   res.sendStatus(200);
+  return;
 });
 
 app.post("/save-score", checkAuthentication, async function (req, res) {
@@ -153,12 +159,14 @@ app.post("/save-score", checkAuthentication, async function (req, res) {
   });
   await newScore.save();
   res.json(newScore);
+  return;
 });
 
 app.get("/get-scores", checkAuthentication, async function (req, res) {
   const scores = await Score.find({ user: req.user._id });
   // console.log(scores);
   res.json(scores);
+  return;
 });
 
 app.get("/get-ranking", checkAuthentication, async function (req, res) {
@@ -176,4 +184,11 @@ app.get("/get-score/:id", async function (req, res) {
   const score = await Score.findById(scoreId).populate("user");
   score.user.password = undefined;
   res.json(score);
+  return;
+});
+
+app.use("/", express.static(path.join(__dirname, "public")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/public/index.html"));
 });

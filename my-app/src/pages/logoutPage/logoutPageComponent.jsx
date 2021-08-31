@@ -3,7 +3,7 @@ import axios from "axios";
 
 class LogoutPage extends Component {
   render() {
-    axios.get(process.env.REACT_APP_BACKEND + "/logout").then((window.location.href = "/login"));
+    axios.post(process.env.REACT_APP_BACKEND + "/logout").then((window.location.href = "/login"));
     return null;
   }
 }

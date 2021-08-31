@@ -1,0 +1,6 @@
+node_modules
+
+# Local build configs
+backend/config.js
+
+package-lock.json

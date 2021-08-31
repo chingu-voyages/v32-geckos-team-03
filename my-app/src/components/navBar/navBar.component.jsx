@@ -35,7 +35,7 @@ function NavBar(props) {
       setIsMobile(true);
     }
   }, []);
-  console.log(isMobile);
+  // console.log(isMobile);
   return (
     <div>
       <nav className={isMobile ? "nav-bar close-menu" : " nav-bar open-menu"}>

@@ -30,7 +30,7 @@ class LoginForm extends Component {
     this.login()
       .then((response) => {
         console.log(response);
-        // window.location.href = "/";
+        window.location.href = "/";
       })
       .catch((error) => this.setStatus(error));
   }
