@@ -15,21 +15,29 @@ class QuizResults extends Component {
   render() {
     // console.log(this.props);
     return (
-      <div className="quiz-results card">
+      <div className="quiz-results">
         <div className="header">
           <h1>Quiz Results</h1>
         </div>
         <div className="main">
-          <p>Congratulations for finishing your quiz!</p>
-          <p>Your score was:</p>
-          <h2>{this.props.score}</h2>
-          <p>Share it with your friends:</p>
-          <a href={this.props.shareLink}>{this.props.shareLink}</a>
+          <div className="text">
+            <p>Congratulations for finishing your quiz!</p>
+            <p>Your score was:</p>
+            <h2>{this.props.score}</h2>
+            <p>Share it with your friends:</p>
+            <p>
+              <a href={this.props.shareLink}>{this.props.shareLink}</a>
+            </p>
+          </div>
+          <div className="buttons">
+            <button className="btn red" onClick={() => this.props.setDone(false)}>
+              Take again
+            </button>
+            <Link className="btn green" to="/homepage">
+              Home
+            </Link>
+          </div>
         </div>
-        <button onClick={() => this.props.setDone(false)}>take again</button>
-        <button onClick={() => this.props.setDone(false)}>
-          <Link to="/homepage">Home</Link>
-        </button>
       </div>
     );
   }

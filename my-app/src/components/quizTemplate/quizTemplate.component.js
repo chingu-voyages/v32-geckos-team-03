@@ -33,9 +33,9 @@ function QuizTemplate({ question, answers, correctAnswer, answerChecker, questio
           return <QuizAnswerBox answer={ans} answerChecker={answerChecker} correctAnswer={correctAnswer} key={i} />;
         })}
       </div>
-      <div>
-        <p> question {questionNumber}</p>
-        <p>Score:{score}</p>
+      <div className="quiz-stats">
+        <p>Question: {questionNumber}</p>
+        <p>Score: {score}</p>
       </div>
     </div>
   );

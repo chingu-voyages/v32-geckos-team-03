@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function SubmitButton(props) {
   return (
@@ -8,9 +8,9 @@ function SubmitButton(props) {
       label="submit"
       value={props.value || "Submit"}
       disabled={props.disabled}
-      className={props.disabled ? ' disabled-btn' : 'submit-btn'}
+      className={props.disabled ? "btn disabled-btn" : "btn red submit-btn"}
     />
-  )
+  );
 }
 
 export default SubmitButton;
